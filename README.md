@@ -1,3 +1,4 @@
+![Project Banner](https://github.com/user-attachments/assets/d459c0b0-2b07-4869-9c39-c3ab0ca5dfb9)
 # IBM MDM Match Decision Explorer 🔍
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
