@@ -1,0 +1,205 @@
+{
+  "scenarios": [
+    {
+      "name": "Fuzzy Match - Name Typo",
+      "description": "Similar entities with typo in given name (Bobby vs Boby) and slight address difference",
+      "entity1": {
+        "record_source": "MDM",
+        "record_id": "6",
+        "birth_date": "1961-08-24",
+        "gender": "Male",
+        "legal_name": {
+          "given_name": "Bobby",
+          "middle_name": "Don",
+          "last_name": "Brown",
+          "prefix": "rev",
+          "suffix": "2d",
+          "generation": "phd"
+        },
+        "primary_residence": {
+          "address_line1": "7959 SW King AVE",
+          "city": "Toronto",
+          "province_state": "ON",
+          "zip_postal_code": "L5D4K8",
+          "country": "canada",
+          "county": "Peel",
+          "residence_number": "120",
+          "residence": "condo"
+        },
+        "home_telephone": "905-722-5903",
+        "mobile_telephone": "416-722-5903",
+        "personal_email": "brownb@us.ibm.com",
+        "social_security_number": "982588729873",
+        "drivers_licence": "803356781",
+        "passport": "EG346ASS9820M"
+      },
+      "entity2": {
+        "record_source": "MDMx",
+        "record_id": "7",
+        "birth_date": "1961-08-23",
+        "gender": "Male",
+        "legal_name": {
+          "given_name": "Boby",
+          "middle_name": "Don",
+          "last_name": "Brown",
+          "prefix": "rev",
+          "suffix": "2d",
+          "generation": "phd"
+        },
+        "primary_residence": {
+          "address_line1": "7950 SW King AVE",
+          "city": "Toronto",
+          "province_state": "ON",
+          "zip_postal_code": "L5D4K8",
+          "country": "canada",
+          "county": "Peel",
+          "residence_number": "120",
+          "residence": "condo"
+        },
+        "home_telephone": "905-722-5903",
+        "personal_email": "brownb@us.ibm.com"
+      }
+    },
+    {
+      "name": "Exact Match",
+      "description": "Identical entities with same information",
+      "entity1": {
+        "record_source": "MDM",
+        "record_id": "100",
+        "birth_date": "1985-03-15",
+        "gender": "Female",
+        "legal_name": {
+          "given_name": "Jane",
+          "middle_name": "Marie",
+          "last_name": "Smith",
+          "prefix": "Ms",
+          "suffix": ""
+        },
+        "primary_residence": {
+          "address_line1": "123 Main Street",
+          "city": "New York",
+          "province_state": "NY",
+          "zip_postal_code": "10001",
+          "country": "USA"
+        },
+        "home_telephone": "212-555-0100",
+        "mobile_telephone": "917-555-0100",
+        "personal_email": "jane.smith@example.com",
+        "social_security_number": "123-45-6789"
+      },
+      "entity2": {
+        "record_source": "CRM",
+        "record_id": "101",
+        "birth_date": "1985-03-15",
+        "gender": "Female",
+        "legal_name": {
+          "given_name": "Jane",
+          "middle_name": "Marie",
+          "last_name": "Smith",
+          "prefix": "Ms",
+          "suffix": ""
+        },
+        "primary_residence": {
+          "address_line1": "123 Main Street",
+          "city": "New York",
+          "province_state": "NY",
+          "zip_postal_code": "10001",
+          "country": "USA"
+        },
+        "home_telephone": "212-555-0100",
+        "mobile_telephone": "917-555-0100",
+        "personal_email": "jane.smith@example.com",
+        "social_security_number": "123-45-6789"
+      }
+    },
+    {
+      "name": "No Match",
+      "description": "Completely different entities",
+      "entity1": {
+        "record_source": "MDM",
+        "record_id": "200",
+        "birth_date": "1990-01-01",
+        "gender": "Male",
+        "legal_name": {
+          "given_name": "John",
+          "last_name": "Doe"
+        },
+        "primary_residence": {
+          "address_line1": "456 Oak Avenue",
+          "city": "Los Angeles",
+          "province_state": "CA",
+          "zip_postal_code": "90001",
+          "country": "USA"
+        },
+        "home_telephone": "310-555-0200",
+        "personal_email": "john.doe@example.com",
+        "social_security_number": "987-65-4321"
+      },
+      "entity2": {
+        "record_source": "MDM",
+        "record_id": "201",
+        "birth_date": "1975-12-25",
+        "gender": "Female",
+        "legal_name": {
+          "given_name": "Mary",
+          "last_name": "Johnson"
+        },
+        "primary_residence": {
+          "address_line1": "789 Pine Street",
+          "city": "Chicago",
+          "province_state": "IL",
+          "zip_postal_code": "60601",
+          "country": "USA"
+        },
+        "home_telephone": "312-555-0300",
+        "personal_email": "mary.johnson@example.com",
+        "social_security_number": "111-22-3333"
+      }
+    },
+    {
+      "name": "Partial Match - Missing Fields",
+      "description": "Same person but one record has missing contact information",
+      "entity1": {
+        "record_source": "MDM",
+        "record_id": "300",
+        "birth_date": "1988-07-20",
+        "gender": "Male",
+        "legal_name": {
+          "given_name": "Michael",
+          "middle_name": "James",
+          "last_name": "Williams"
+        },
+        "primary_residence": {
+          "address_line1": "321 Elm Street",
+          "city": "Boston",
+          "province_state": "MA",
+          "zip_postal_code": "02101",
+          "country": "USA"
+        },
+        "home_telephone": "617-555-0400",
+        "mobile_telephone": "617-555-0401",
+        "personal_email": "m.williams@example.com",
+        "social_security_number": "222-33-4444",
+        "drivers_licence": "MA123456789"
+      },
+      "entity2": {
+        "record_source": "External",
+        "record_id": "301",
+        "birth_date": "1988-07-20",
+        "gender": "Male",
+        "legal_name": {
+          "given_name": "Michael",
+          "middle_name": "James",
+          "last_name": "Williams"
+        },
+        "primary_residence": {
+          "address_line1": "321 Elm Street",
+          "city": "Boston",
+          "province_state": "MA",
+          "zip_postal_code": "02101",
+          "country": "USA"
+        }
+      }
+    }
+  ]
+}
