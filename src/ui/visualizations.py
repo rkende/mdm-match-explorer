@@ -271,9 +271,9 @@ def render_config_editor(config: Dict[str, Any]) -> Dict[str, Any]:
         
         details = st.selectbox(
             "Details Level",
-            options=["debug", "standard"],
-            index=0 if config.get("details", "debug") == "debug" else 1,
-            help="debug provides detailed matching information"
+            options=["low", "high", "debug"],
+            index=["low", "high", "debug"].index(config.get("details", "low")),
+            help="Select detail level: low (minimal), high (more info), debug (full details)"
         )
     
     return {

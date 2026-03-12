@@ -8,7 +8,7 @@ from pathlib import Path
 src_dir = Path(__file__).parent
 sys.path.insert(0, str(src_dir))
 
-from mdm.client import MDMClient
+from mdm.client import MDMClient, convert_mdm_record_to_entity
 from mdm.models import (
     PersonRecord, PersonAttributes, LegalName, BirthDate, Gender,
     PrimaryResidence, Telephone, Email, Identification, CompareRequest
@@ -84,15 +84,18 @@ def convert_entity_to_mdm_format(entity: dict) -> PersonAttributes:
     if any(legal_name_data.values()):
         legal_name = [LegalName(**legal_name_data)]
     
-    # Build birth date
+    # Build birth date - use original format without adding timestamp
     birth_date = None
     if entity.get("birth_date"):
-        birth_date = [BirthDate(value=entity["birth_date"] + "T00:00:00")]
+        birth_date = [BirthDate(value=entity["birth_date"])]
     
-    # Build gender
+    # Build gender - convert display values to API codes
     gender = None
     if entity.get("gender"):
-        gender = [Gender(value=entity["gender"])]
+        # Map display values to API codes
+        gender_map = {"Male": "M", "Female": "F", "Other": "O"}
+        gender_value = gender_map.get(entity["gender"], entity["gender"])
+        gender = [Gender(value=gender_value)]
     
     # Build primary residence
     residence_data = entity.get("primary_residence", {})
@@ -198,7 +201,7 @@ def main():
             "crn": config.mdm_crn,
             "record_number1": "",  # Empty by default for new/fictional records
             "record_number2": "",  # Empty by default for new/fictional records
-            "details": "debug"
+            "details": "low"
         }
     
     # Sidebar - Configuration and Sample Data
@@ -272,26 +275,116 @@ def main():
             load_entity_to_session_state(empty_entity, "entity2")
             st.rerun()
     
+    # Check if we need to load records BEFORE rendering forms
+    # This must happen before widgets are created
+    record_num1 = st.session_state.config_params.get("record_number1", "")
+    record_num2 = st.session_state.config_params.get("record_number2", "")
+    
+    # Check if user wants to use record numbers (from checkbox in previous render)
+    # Default to False - user must explicitly check the checkbox
+    use_record_num1 = st.session_state.get("entity1_use_record_number_checkbox", False)
+    use_record_num2 = st.session_state.get("entity2_use_record_number_checkbox", False)
+    
+    # Detect if checkbox was unchecked - clear loaded record cache
+    prev_use_record_num1 = st.session_state.get("_prev_use_record_num1", False)
+    prev_use_record_num2 = st.session_state.get("_prev_use_record_num2", False)
+    
+    if prev_use_record_num1 and not use_record_num1:
+        # Checkbox was unchecked for entity 1 - clear cache
+        if record_num1:
+            st.session_state.pop(f"loaded_record1_{record_num1}", None)
+    
+    if prev_use_record_num2 and not use_record_num2:
+        # Checkbox was unchecked for entity 2 - clear cache
+        if record_num2:
+            st.session_state.pop(f"loaded_record2_{record_num2}", None)
+    
+    # Store current checkbox state for next render
+    st.session_state._prev_use_record_num1 = use_record_num1
+    st.session_state._prev_use_record_num2 = use_record_num2
+    
+    # Track if any records were loaded in this run
+    records_loaded = False
+    
+    # Load record 1 if needed (before rendering form)
+    if use_record_num1 and record_num1 and f"loaded_record1_{record_num1}" not in st.session_state:
+        try:
+            with st.spinner(f"Loading record {record_num1} from MDM..."):
+                client = MDMClient()
+                record_data = client.get_record_by_id(
+                    record_id=record_num1,
+                    crn=st.session_state.config_params["crn"]
+                )
+                if record_data:
+                    entity1_loaded = convert_mdm_record_to_entity(record_data)
+                    st.session_state.entity1_data = entity1_loaded
+                    # Update widget keys BEFORE rendering - this populates the UI
+                    load_entity_to_session_state(entity1_loaded, "entity1")
+                    st.session_state[f"loaded_record1_{record_num1}"] = True
+                    st.success(f"✓ Record {record_num1} loaded successfully")
+                    records_loaded = True
+                else:
+                    st.error(f"Record {record_num1} not found")
+        except Exception as e:
+            st.error(f"Error loading record 1: {str(e)}")
+            if config.debug_mode:
+                st.exception(e)
+    
+    # Load record 2 if needed (before rendering form)
+    if use_record_num2 and record_num2 and f"loaded_record2_{record_num2}" not in st.session_state:
+        try:
+            with st.spinner(f"Loading record {record_num2} from MDM..."):
+                client = MDMClient()
+                record_data = client.get_record_by_id(
+                    record_id=record_num2,
+                    crn=st.session_state.config_params["crn"]
+                )
+                if record_data:
+                    entity2_loaded = convert_mdm_record_to_entity(record_data)
+                    st.session_state.entity2_data = entity2_loaded
+                    # Update widget keys BEFORE rendering - this populates the UI
+                    load_entity_to_session_state(entity2_loaded, "entity2")
+                    st.session_state[f"loaded_record2_{record_num2}"] = True
+                    st.success(f"✓ Record {record_num2} loaded successfully")
+                    records_loaded = True
+                else:
+                    st.error(f"Record {record_num2} not found")
+        except Exception as e:
+            st.error(f"Error loading record 2: {str(e)}")
+            if config.debug_mode:
+                st.exception(e)
+    
+    # Don't call st.rerun() - it interferes with button state
+    # Streamlit will automatically rerun when session_state changes
+    # if records_loaded:
+    #     st.rerun()
+    
     # Main content - Entity input forms
     col1, col2 = st.columns(2)
     
     with col1:
-        entity1 = render_entity_form(
+        entity1, use_record_num1_new = render_entity_form(
             st.session_state.get("entity1_data", get_sample_data_manager().get_empty_entity()),
             entity_number=1,
-            key_prefix="entity1"
+            key_prefix="entity1",
+            record_number=record_num1
         )
+        # No need to store checkbox state - it's already in session_state via the widget key
     
     with col2:
-        entity2 = render_entity_form(
+        entity2, use_record_num2_new = render_entity_form(
             st.session_state.get("entity2_data", get_sample_data_manager().get_empty_entity()),
             entity_number=2,
-            key_prefix="entity2"
+            key_prefix="entity2",
+            record_number=record_num2
         )
+        # No need to store checkbox state - it's already in session_state via the widget key
     
-    # Update session state with current form values
-    st.session_state.entity1_data = entity1
-    st.session_state.entity2_data = entity2
+    # Update session state with current form values (only if not using record numbers)
+    if not use_record_num1_new:
+        st.session_state.entity1_data = entity1
+    if not use_record_num2_new:
+        st.session_state.entity2_data = entity2
     
     # Compare button
     st.markdown("---")
@@ -305,6 +398,20 @@ def main():
     
     # Process comparison
     if compare_button:
+        # Only show "Comparing entities..." in debug mode
+        if st.session_state.config_params["details"] == "debug":
+            st.write("🔍 **Comparing entities...**")
+        
+        # Debug: Show what we're comparing
+        if st.session_state.config_params["details"] == "debug":
+            st.write("**Debug: Compare Button Clicked**")
+            st.write(f"- use_record_num1_new: {use_record_num1_new}")
+            st.write(f"- use_record_num2_new: {use_record_num2_new}")
+            st.write("**Entity 1 data:**")
+            st.json(entity1)
+            st.write("**Entity 2 data:**")
+            st.json(entity2)
+        
         # Validate entities
         is_valid1, error1 = validate_entity(entity1)
         is_valid2, error2 = validate_entity(entity2)
@@ -320,6 +427,13 @@ def main():
         # Show progress
         with st.spinner("Comparing entities via MDM API..."):
             try:
+                # Debug: Show entity data before conversion
+                if st.session_state.config_params["details"] == "debug":
+                    st.write("**Debug: Entity 1 data:**")
+                    st.json(entity1)
+                    st.write("**Debug: Entity 2 data:**")
+                    st.json(entity2)
+                
                 # Initialize MDM client
                 client = MDMClient()
                 
@@ -334,19 +448,42 @@ def main():
                 # Create compare request
                 compare_request = CompareRequest(records=[record1, record2])
                 
-                # Debug: Show request body if debug mode is enabled
-                if config.debug_mode:
+                # Determine which record_numbers to pass to API
+                # IMPORTANT: MDM API ignores body if ANY record_number is present
+                # So we can only use record_numbers if BOTH are checked, otherwise use body for both
+                api_record_num1 = ""
+                api_record_num2 = ""
+                
+                if use_record_num1_new and use_record_num2_new:
+                    # Both from DB - use record_numbers
+                    api_record_num1 = st.session_state.config_params["record_number1"]
+                    api_record_num2 = st.session_state.config_params["record_number2"]
+                # else: Mixed or both manual - use body data for both (record_numbers stay empty)
+                
+                # Debug: Show request details only when details level is "debug"
+                if st.session_state.config_params["details"] == "debug":
+                    st.write("**Debug: API Request Details**")
+                    st.write(f"- CRN: {st.session_state.config_params['crn']}")
+                    st.write(f"- Entity Type: {config.mdm_entity_type}")
+                    st.write(f"- Record Type: {config.mdm_record_type}")
+                    st.write(f"- Record Number 1: '{api_record_num1}' (checkbox: {use_record_num1_new})")
+                    st.write(f"- Record Number 2: '{api_record_num2}' (checkbox: {use_record_num2_new})")
+                    st.write(f"- Details: {st.session_state.config_params['details']}")
+                    if not api_record_num1 and not api_record_num2:
+                        st.info("ℹ️ Using request body data (not record_numbers) because at least one entity is manual")
                     st.write("**Debug: Request Body**")
                     st.json(compare_request.model_dump(exclude_none=True))
                 
                 # Make API call
+                # Only pass record_number if checkbox is checked (user wants to use loaded data)
+                # If checkbox is unchecked, pass empty string so API uses the body data
                 response = client.compare_entities(
                     request=compare_request,
                     crn=st.session_state.config_params["crn"],
                     entity_type=config.mdm_entity_type,
                     record_type=config.mdm_record_type,
-                    record_number1=st.session_state.config_params["record_number1"],
-                    record_number2=st.session_state.config_params["record_number2"],
+                    record_number1=api_record_num1,
+                    record_number2=api_record_num2,
                     details=st.session_state.config_params["details"]
                 )
                 

@@ -10,6 +10,78 @@ from .auth import TokenManager
 from utils.config import get_config
 
 
+def convert_mdm_record_to_entity(record_data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Convert MDM API record response to entity format used by the application.
+    
+    Args:
+        record_data: Record data from MDM API /records/{id} endpoint
+        
+    Returns:
+        Entity dictionary in application format
+    """
+    record = record_data.get("record", {})
+    attributes = record.get("attributes", {})
+    
+    # Extract legal name
+    legal_name_data = attributes.get("legal_name", {})
+    legal_name = {
+        "given_name": legal_name_data.get("given_name", ""),
+        "middle_name": legal_name_data.get("middle_name", ""),
+        "last_name": legal_name_data.get("last_name", ""),
+        "prefix": legal_name_data.get("prefix", ""),
+        "suffix": legal_name_data.get("suffix", ""),
+        "generation": legal_name_data.get("generation", "")
+    }
+    
+    # Extract primary residence
+    residence_data = attributes.get("primary_residence", {})
+    primary_residence = {
+        "address_line1": residence_data.get("address_line1", ""),
+        "city": residence_data.get("city", ""),
+        "province_state": residence_data.get("province_state", ""),
+        "zip_postal_code": residence_data.get("zip_postal_code", ""),
+        "country": residence_data.get("country", ""),
+        "county": residence_data.get("county", ""),
+        "residence_number": residence_data.get("residence_number", ""),
+        "residence": residence_data.get("residence_type", "")
+    }
+    
+    # Extract contact information
+    home_phone = attributes.get("home_telephone", {})
+    mobile_phone = attributes.get("mobile_telephone", {})
+    
+    # Extract identifications
+    ssn_data = attributes.get("social_insurance_number", {})
+    
+    # Build entity dictionary
+    # Get record_last_updated from record metadata or use current timestamp
+    from datetime import datetime
+    record_last_updated = record.get("record_last_updated")
+    if not record_last_updated:
+        # If not provided, use current timestamp in milliseconds
+        record_last_updated = int(datetime.now().timestamp() * 1000)
+    
+    entity = {
+        "record_source": attributes.get("record_source", "MDM"),
+        "record_id": attributes.get("record_id", ""),
+        "record_number": attributes.get("record_number", ""),
+        "record_last_updated": record_last_updated,
+        "birth_date": attributes.get("birth_date", {}).get("value", ""),
+        "gender": attributes.get("gender", {}).get("value", ""),
+        "legal_name": legal_name,
+        "primary_residence": primary_residence,
+        "home_telephone": home_phone.get("phone_number", ""),
+        "mobile_telephone": mobile_phone.get("phone_number", ""),
+        "personal_email": attributes.get("personal_email", {}).get("email_id", ""),
+        "social_security_number": ssn_data.get("identification_number", ""),
+        "drivers_licence": attributes.get("drivers_license_number", {}).get("identification_number", ""),
+        "passport": attributes.get("passport_number", {}).get("identification_number", "")
+    }
+    
+    return entity
+
+
 class MDMClient:
     """Client for interacting with IBM MDM Match API."""
     
@@ -201,6 +273,50 @@ class MDMClient:
             debug_details=response.debug_details,
             raw_response=response.raw_response
         )
+    
+    def get_record_by_id(self, record_id: str, crn: str) -> Optional[Dict[str, Any]]:
+        """
+        Retrieve a record by its ID from the MDM API.
+        
+        Args:
+            record_id: The record ID to retrieve
+            crn: Cloud Resource Name
+            
+        Returns:
+            Dictionary with record data or None if not found
+            
+        Raises:
+            requests.exceptions.RequestException: If the API request fails
+        """
+        # Build query parameters
+        params = {"crn": crn}
+        
+        # Build URL
+        url = f"{self.base_url}/mdm/v1/records/{record_id}?{urlencode(params)}"
+        
+        # Make request
+        response = requests.get(
+            url,
+            headers=self._get_headers(),
+            timeout=self.timeout
+        )
+        
+        # Check for errors
+        if not response.ok:
+            error_detail = ""
+            try:
+                error_data = response.json()
+                error_detail = f"\nAPI Error Details: {error_data}"
+            except:
+                error_detail = f"\nResponse Text: {response.text}"
+            
+            raise requests.exceptions.HTTPError(
+                f"{response.status_code} {response.reason} for url: {url}{error_detail}",
+                response=response
+            )
+        
+        # Parse and return response
+        return response.json()
     
     def test_connection(self) -> tuple[bool, Optional[str]]:
         """

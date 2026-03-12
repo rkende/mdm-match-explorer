@@ -1,11 +1,14 @@
 ![Project Banner](https://github.com/user-attachments/assets/d459c0b0-2b07-4869-9c39-c3ab0ca5dfb9)
 # IBM MDM Match Decision Explorer 🔍
 
+[![Version](https://img.shields.io/badge/version-1.1.0-brightgreen.svg)](https://github.com/your-repo/mdm-match-explorer/releases/tag/v1.1.0)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Streamlit](https://img.shields.io/badge/streamlit-1.30+-red.svg)](https://streamlit.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 An interactive Streamlit web application for exploring IBM MDM (Match 360) matching algorithms. Compare entity records in real-time, visualize match decisions, and understand field-level contributions with an intuitive interface.
+
+> **🎉 New in v1.1.0:** Load records directly from database using Record IDs + Configurable detail levels (low/high/debug)
 
 ![MDM Match Explorer Demo](https://via.placeholder.com/800x400?text=MDM+Match+Explorer+Demo)
 
@@ -25,7 +28,7 @@ An interactive Streamlit web application for exploring IBM MDM (Match 360) match
 - **🔄 Real-Time Comparison** - Compare two person entities instantly via IBM MDM API
 - **📊 Visual Match Results** - Clear display of match decisions with confidence scores
 - **🎯 Field-Level Analysis** - See which fields contributed to the match score
-- **🔍 Debug Mode** - Access detailed matching algorithm information
+- **🔍 Load from Database** - NEW! Load entity records directly from MDM using Record IDs
 - **📝 Sample Data Library** - Pre-loaded scenarios for quick testing
 - **⚙️ Configurable Parameters** - Adjust query settings and thresholds
 
@@ -35,6 +38,8 @@ An interactive Streamlit web application for exploring IBM MDM (Match 360) match
 - **🎨 Interactive UI** - Side-by-side entity forms with color-coded comparisons
 - **📈 Score Visualization** - Gauge charts and detailed breakdowns
 - **🔄 Live Updates** - Real-time token status monitoring
+- **📊 Detail Levels** - NEW! Choose between low, high, or debug output levels
+- **🔀 Mixed Comparisons** - NEW! Compare database records vs manual entries
 
 ## 🚀 Quick Start
 
@@ -139,15 +144,15 @@ DEBUG_MODE=false
 
 ### Basic Workflow
 
-1. **Load Sample Data**
-   - Select a scenario from the sidebar dropdown
-   - Click "Load to Entity 1" and "Load to Entity 2"
-   - Or manually enter entity data
+1. **Choose Input Method**
+   - **Option A: Manual Entry** - Enter entity data directly in the forms
+   - **Option B: Load from Database** - Enter Record ID and check "🔍 Load data from Record Number"
+   - **Option C: Sample Data** - Select a scenario from the sidebar dropdown
 
 2. **Configure Parameters** (Optional)
    - Adjust CRN if needed
-   - Leave record numbers empty for new entities
-   - Choose debug level for detailed output
+   - Choose detail level (low/high/debug)
+   - Enter Record IDs if loading from database
 
 3. **Compare Entities**
    - Click the "🔍 Compare Entities" button
@@ -157,6 +162,44 @@ DEBUG_MODE=false
    - Review match decision and confidence
    - Examine field-by-field comparison
    - Explore debug details if enabled
+
+### Loading Records from Database (NEW in v1.1.0)
+
+The application now supports loading entity records directly from the MDM database:
+
+1. **Enter Record ID**
+   - In the sidebar, enter the Record ID (e.g., "12345")
+   - Record IDs are unique identifiers for entities in your MDM system
+
+2. **Enable Loading**
+   - Check the "🔍 Load data from Record Number" checkbox
+   - Fields will automatically populate with data from the database
+   - Loaded fields become read-only to prevent accidental changes
+
+3. **Comparison Modes**
+   - **Both Manual**: Enter data in both forms (checkboxes unchecked)
+   - **Both from Database**: Enter Record IDs, check both checkboxes
+   - **Mixed Mode**: Load one from database, enter the other manually
+
+4. **Edit Loaded Data**
+   - Uncheck the "Load data" checkbox to edit the loaded record
+   - Useful for testing "what-if" scenarios
+
+### Detail Levels (NEW in v1.1.0)
+
+Choose the appropriate detail level for your needs:
+
+- **Low** (Default) - Clean UI with just match results
+  - Best for: Quick comparisons, demos, production use
+  - Shows: Match decision, score, field comparison
+
+- **High** - More information without overwhelming details
+  - Best for: Understanding match logic, troubleshooting
+  - Shows: Everything in Low + additional match metadata
+
+- **Debug** - Full debug information
+  - Best for: Development, deep troubleshooting, API testing
+  - Shows: Everything + API requests, responses, internal state
 
 ### Sample Scenarios
 

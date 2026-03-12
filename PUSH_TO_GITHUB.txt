@@ -1,0 +1,69 @@
+================================================================================
+QUICK REFERENCE: Push to GitHub
+================================================================================
+
+STEP 1: Create Repository on GitHub (in your browser)
+------------------------------------------------------
+Repository name: mdm-match-explorer
+Description: Interactive Streamlit app for exploring IBM MDM (Match 360) matching algorithms
+Visibility: Public (recommended) or Private
+DO NOT check: Add README, .gitignore, or license
+Click: "Create repository"
+
+
+STEP 2: Run These Commands (copy and paste into PowerShell)
+------------------------------------------------------------
+
+cd "C:\Users\ROBERTKENDE\OneDrive - IBM\DOCS\WORKSPACES\bob\mdm-match-explorer"
+
+git remote add origin https://github.com/rkende/mdm-match-explorer.git
+
+git branch -M main
+
+git push -u origin main
+
+
+STEP 3: If Authentication is Required
+--------------------------------------
+Username: rkende
+Password: Use a Personal Access Token (NOT your GitHub password)
+
+To create a token:
+1. Go to: https://github.com/settings/tokens
+2. Click "Generate new token (classic)"
+3. Select scope: repo (full control of private repositories)
+4. Click "Generate token"
+5. Copy the token and use it as your password
+
+
+STEP 4: Verify
+--------------
+Go to: https://github.com/rkende/mdm-match-explorer
+You should see all your files!
+
+
+TROUBLESHOOTING
+---------------
+
+If "remote origin already exists":
+  git remote remove origin
+  git remote add origin https://github.com/rkende/mdm-match-explorer.git
+  git push -u origin main
+
+If authentication fails:
+  - Make sure you're using a Personal Access Token, not your password
+  - Token must have "repo" scope enabled
+
+If you need to update the repository URL:
+  git remote set-url origin https://github.com/rkende/mdm-match-explorer.git
+
+
+AFTER SUCCESSFUL PUSH
+---------------------
+1. Add topics: ibm-mdm, match360, streamlit, data-quality, python
+2. Enable Issues and Discussions in Settings
+3. Create a release (v1.0.0)
+4. Share with the community!
+
+
+================================================================================

@@ -1,0 +1,206 @@
+═══════════════════════════════════════════════════════════════════════════
+  SLIDE POWERPOINT - VERSIÓN COMPACTA CON MODOS DE BOB
+═══════════════════════════════════════════════════════════════════════════
+
+TÍTULO DEL SLIDE:
+─────────────────
+Explorador Interactivo de Decisiones de Matching en IBM MDM
+Visualización en tiempo real de algoritmos de coincidencia de entidades
+
+
+═══════════════════════════════════════════════════════════════════════════
+LADO IZQUIERDO DEL SLIDE (60%)
+═══════════════════════════════════════════════════════════════════════════
+
+ROLES QUE SE PUEDEN BENEFICIAR:
+────────────────────────────────
+👥 Data Stewards  |  ⚙️ Admins MDM  |  💻 Developers  |  📊 Analistas
+
+
+DESCRIPCIÓN:
+────────────
+App web que visualiza en tiempo real las decisiones de matching de IBM MDM.
+Compara entidades, muestra scores de confianza y analiza contribuciones 
+campo por campo con interfaz intuitiva.
+
+
+BENEFICIOS:
+───────────
+⚡ Validación rápida (minutos vs horas)
+🎯 Transparencia total del matching  
+🔐 Gestión automática de tokens
+💰 Implementación en 2 días
+
+
+MODOS DE BOB UTILIZADOS:
+─────────────────────────
+
+📝 PLAN MODE
+   • Análisis de requisitos y diseño de arquitectura
+   • Planificación de estructura del proyecto
+   • Definición de componentes y flujos de datos
+
+💻 CODE MODE
+   • Implementación de cliente API MDM
+   • Desarrollo de interfaz Streamlit
+   • Creación de gestor automático de tokens
+   • Integración con IBM Cloud IAM
+   • Desarrollo de visualizaciones interactivas
+
+📚 ARCHITECT MODE
+   • Diseño de patrones (Facade, Singleton, Strategy)
+   • Definición de capas (UI, Lógica, Integración)
+   • Optimización de rendimiento y seguridad
+   • Documentación técnica completa
+
+
+═══════════════════════════════════════════════════════════════════════════
+LADO DERECHO DEL SLIDE (40%)
+═══════════════════════════════════════════════════════════════════════════
+
+ARQUITECTURA:
+─────────────
+
+    ┌─────────────────────┐
+    │   👤 USUARIO        │
+    │  (Navegador Web)    │
+    └──────────┬──────────┘
+               │
+               ▼
+    ┌─────────────────────┐
+    │ 🖥️  STREAMLIT APP   │
+    │  • Formularios      │
+    │  • Visualizaciones  │
+    │  • Auto-tokens      │
+    └──────────┬──────────┘
+               │
+               ▼
+    ┌─────────────────────┐
+    │ 🔐 IBM CLOUD IAM    │
+    │ (Tokens auto)       │
+    └──────────┬──────────┘
+               │
+               ▼
+    ┌─────────────────────┐
+    │ 🎯 IBM MDM API      │
+    │  • Comparación      │
+    │  • Matching         │
+    │  • Scores           │
+    └─────────────────────┘
+
+
+STACK TECNOLÓGICO:
+──────────────────
+• Python 3.11+ / Streamlit
+• Pydantic / Plotly
+• IBM MDM Match 360
+• IBM Cloud IAM
+
+
+MÉTRICAS CLAVE:
+───────────────
+⏱️  1-3 seg/comparación
+🔄 99.9% disponibilidad
+📊 100% precisión API
+💾 ~100 MB memoria
+
+
+═══════════════════════════════════════════════════════════════════════════
+VERSIÓN ALTERNATIVA - MODOS DE BOB MÁS COMPACTOS
+═══════════════════════════════════════════════════════════════════════════
+
+MODOS DE BOB UTILIZADOS:
+─────────────────────────
+
+📝 Plan → Diseño y arquitectura
+💻 Code → Implementación completa
+📚 Architect → Patrones y documentación
+
+
+═══════════════════════════════════════════════════════════════════════════
+LAYOUT VISUAL DEL SLIDE
+═══════════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│  Explorador Interactivo de Decisiones de Matching en IBM MDM           │
+│  Visualización en tiempo real de algoritmos de coincidencia            │
+├──────────────────────────────────────┬──────────────────────────────────┤
+│  LADO IZQUIERDO (60%)                │  LADO DERECHO (40%)              │
+│                                      │                                  │
+│  ROLES:                              │  ARQUITECTURA:                   │
+│  👥 Data Stewards | ⚙️ Admins MDM    │                                  │
+│  💻 Developers | 📊 Analistas        │      Usuario                     │
+│                                      │         ↓                        │
+│  DESCRIPCIÓN:                        │    Streamlit App                 │
+│  App web que visualiza en tiempo     │         ↓                        │
+│  real las decisiones de matching...  │    IBM Cloud IAM                 │
+│                                      │         ↓                        │
+│  BENEFICIOS:                         │    IBM MDM API                   │
+│  ⚡ Validación rápida                │                                  │
+│  🎯 Transparencia total              │  STACK:                          │
+│  🔐 Gestión automática tokens        │  • Python/Streamlit              │
+│  💰 Implementación en 2 días         │  • Pydantic/Plotly               │
+│                                      │  • IBM MDM Match 360             │
+│  MODOS DE BOB:                       │                                  │
+│  📝 Plan → Diseño                    │  MÉTRICAS:                       │
+│  💻 Code → Implementación            │  ⏱️  1-3 seg                    │
+│  📚 Architect → Documentación        │  🔄 99.9% disponibilidad         │
+│                                      │  📊 100% precisión               │
+└──────────────────────────────────────┴──────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════════
+COLORES PARA EL DISEÑO
+═══════════════════════════════════════════════════════════════════════════
+
+• Título: Azul IBM (#0F62FE)
+• Roles: Verde (#24A148)
+• Descripción: Gris oscuro (#393939)
+• Beneficios: Naranja (#FF832B)
+• Modos de Bob: Púrpura (#8A3FFC)
+• Arquitectura: Azul oscuro (#002D9C)
+• Fondo: Blanco (#FFFFFF)
+
+
+═══════════════════════════════════════════════════════════════════════════
+NOTAS DEL PRESENTADOR
+═══════════════════════════════════════════════════════════════════════════
+
+PUNTOS CLAVE A MENCIONAR:
+
+1. VALOR DEL CASO DE USO:
+   - Solución práctica implementada en 2 días
+   - Demuestra capacidades de IBM MDM de forma visual e interactiva
+   - Elimina fricción en validación de reglas de matching
+
+2. MODOS DE BOB UTILIZADOS:
+   - Plan Mode: Diseñamos la arquitectura y planificamos componentes
+   - Code Mode: Implementamos toda la funcionalidad (API, UI, tokens)
+   - Architect Mode: Aplicamos patrones de diseño y documentamos
+
+3. INNOVACIÓN TÉCNICA:
+   - Gestión automática de tokens (elimina mantenimiento manual cada hora)
+   - Visualización en tiempo real de algoritmos complejos
+   - Interfaz que democratiza el acceso a capacidades MDM
+
+4. IMPACTO:
+   - ROI inmediato: De horas a minutos en validación
+   - Mejora colaboración entre equipos técnicos y negocio
+   - Base para futuros desarrollos (batch, organizaciones, watsonx.data)
+
+5. ESCALABILIDAD:
+   - Arquitectura modular preparada para extensiones
+   - Código abierto (MIT) disponible en GitHub
+   - Documentación completa para adopción
+
+
+═══════════════════════════════════════════════════════════════════════════
+TEXTO PARA PIE DE SLIDE (Opcional)
+═══════════════════════════════════════════════════════════════════════════
+
+Desarrollado con Bob AI Assistant | Código abierto (MIT) | GitHub: rkende/mdm-match-explorer
+
+
+═══════════════════════════════════════════════════════════════════════════
+FIN DEL DOCUMENTO
+═══════════════════════════════════════════════════════════════════════════

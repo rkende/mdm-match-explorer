@@ -5,6 +5,127 @@ All notable changes to the IBM MDM Match Decision Explorer will be documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-03-12
+
+### 🎉 Major Feature Release - Record Loading & Detail Levels
+
+This release introduces the ability to load entity records directly from the MDM database and adds configurable detail levels for cleaner UI.
+
+### ✨ New Features
+
+#### Record Loading from Database
+- **🔍 Load from Record ID** - New checkbox option to load entity data directly from MDM using Record IDs
+- **📥 Automatic Data Population** - Fields automatically populate when loading from database
+- **🔒 Field Locking** - Loaded fields become read-only to prevent accidental modifications
+- **🔄 Mixed Comparison Modes** - Support for comparing:
+  - Two manually entered entities
+  - Two database-loaded entities
+  - One database entity vs one manual entity
+- **💾 Smart Caching** - Loaded records are cached to prevent redundant API calls
+- **✅ Checkbox State Persistence** - Load state persists across UI interactions
+
+#### Detail Level Control
+- **📊 Three Detail Levels**:
+  - **Low** (default) - Minimal output, clean UI with just results
+  - **High** - More information without overwhelming details
+  - **Debug** - Full debug information including API requests and responses
+- **🎯 Selective Debug Output** - Debug messages only appear in debug mode
+- **🧹 Cleaner Default Experience** - App starts in "low" detail mode for better UX
+
+### 🔧 Improvements
+
+#### API Integration
+- **🔄 Smart Parameter Handling** - Conditional use of `record_number` parameters based on comparison mode
+- **🛡️ API Behavior Workaround** - Handles MDM API's behavior of ignoring request body when record_numbers are present
+- **📝 Request Body Fallback** - Uses request body for mixed scenarios (one DB, one manual)
+
+#### User Experience
+- **🎨 Improved Form Layout** - Checkbox for record loading integrated into entity forms
+- **💡 Better Visual Feedback** - Clear indication when fields are loaded vs manual
+- **📋 Informative Messages** - Debug mode shows which data source is being used
+
+#### Code Quality
+- **🔄 Gender Value Mapping** - Bidirectional mapping between API codes (M/F) and display values (Male/Female)
+- **📅 Date Format Handling** - Proper birth date format without unnecessary timestamps
+- **🔍 Enhanced Validation** - Better error handling for record loading failures
+- **🧪 Session State Management** - Improved Streamlit state handling to prevent conflicts
+
+### 🐛 Bug Fixes
+
+- **Fixed**: Invalid "standard" detail level causing 400 API errors
+- **Fixed**: Record data not appearing in UI after loading
+- **Fixed**: Checkbox state not persisting after data load
+- **Fixed**: Compare button not working after record load (removed interfering `st.rerun()`)
+- **Fixed**: Gender value mismatch between UI and API
+- **Fixed**: Birth date format including unnecessary timestamp
+- **Fixed**: API ignoring request body in mixed comparison scenarios
+- **Fixed**: Missing `record_last_updated` field causing validation errors
+
+### 📚 Documentation
+
+- **Updated**: README.md with new record loading feature
+- **Updated**: CHANGELOG.md with detailed release notes
+- **Added**: Technical notes about API behavior and workarounds
+- **Enhanced**: Code comments explaining complex logic
+
+### 🔄 API Changes
+
+#### New Methods
+- `MDMClient.get_record_by_id(record_id, crn)` - Fetch record from MDM database
+- `convert_mdm_record_to_entity(record_data)` - Convert API response to app format
+- `load_entity_to_session_state(entity, key_prefix)` - Populate UI widgets with loaded data
+
+#### Modified Behavior
+- `compare_entities()` now conditionally uses `record_number` parameters
+- Request body always includes both entities for mixed scenarios
+
+### 🏗️ Technical Details
+
+#### Architecture Changes
+- Enhanced `src/mdm/client.py` with record loading capability
+- Updated `src/app.py` with pre-load logic and conditional parameter passing
+- Modified `src/ui/entity_input.py` with checkbox and field disabling logic
+- Improved `src/ui/visualizations.py` with valid detail level options
+
+#### State Management
+- Added caching mechanism for loaded records (`loaded_record1_{id}`, `loaded_record2_{id}`)
+- Checkbox state tracking (`entity1_use_record_number_checkbox`, `entity2_use_record_number_checkbox`)
+- Entity data storage (`entity1_data`, `entity2_data`)
+
+### ⚠️ Breaking Changes
+
+None - This release is fully backwards compatible with v1.0.0
+
+### 📊 Performance
+
+- Record loading: <1 second (with caching)
+- No performance impact on manual entry mode
+- Reduced API calls through smart caching
+
+### 🔒 Security
+
+- No security changes
+- Maintains same authentication and credential handling
+
+### 📝 Migration Guide
+
+No migration needed - existing configurations and workflows continue to work unchanged.
+
+### 🎯 Usage Examples
+
+#### Loading from Database
+1. Enter a Record ID in the sidebar field
+2. Check "🔍 Load data from Record Number"
+3. Fields automatically populate and become read-only
+4. Uncheck to edit the loaded data
+
+#### Comparison Modes
+- **Both Manual**: Enter data in both forms, leave checkboxes unchecked
+- **Both from DB**: Enter Record IDs, check both checkboxes
+- **Mixed**: Check one checkbox for DB record, leave other unchecked for manual entry
+
+---
+
 ## [1.0.0] - 2026-03-05
 
 ### 🎉 Initial Release

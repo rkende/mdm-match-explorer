@@ -1,3 +1,4 @@
+
 # 🚀 Quick Start Guide - IBM MDM Match Decision Explorer
 
 Get up and running in **5 minutes**! This guide walks you through the fastest path to exploring IBM MDM matching algorithms.
@@ -259,71 +260,3 @@ The app includes 4 pre-configured scenarios:
 
 ### Faster Development
 
-```bash
-# Keep the app running and it will auto-reload on code changes
-streamlit run src/app.py --server.runOnSave true
-```
-
-### Better Performance
-
-```bash
-# Increase file watcher limit (Linux/Mac)
-echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
-sudo sysctl -p
-```
-
-### Secure Your Credentials
-
-```bash
-# Set restrictive permissions on .env file
-# Linux/Mac:
-chmod 600 .env
-
-# Windows (PowerShell):
-icacls .env /inheritance:r /grant:r "$($env:USERNAME):(R,W)"
-```
-
-### Clear Token Cache
-
-If you're having token issues:
-
-```bash
-# Linux/Mac
-rm ~/.mdm_token_cache.json
-
-# Windows
-del %USERPROFILE%\.mdm_token_cache.json
-```
-
-## 📚 Additional Resources
-
-- **[README.md](README.md)** - Complete documentation
-- **[DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md)** - Pre-demo checklist
-- **[IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md)** - Technical details
-- **IBM MDM Documentation** - https://www.ibm.com/docs/en/mdm
-
-## 🆘 Getting Help
-
-1. **Check the logs**: Look at terminal output for error messages
-2. **Enable debug mode**: Set `DEBUG_MODE=true` in `.env`
-3. **Review documentation**: See README.md for detailed info
-4. **Create an issue**: Report bugs in the repository
-5. **Contact support**: Reach out to your IBM representative
-
-## ✅ Success Checklist
-
-Before considering setup complete, verify:
-
-- [ ] Application starts without errors
-- [ ] Token status shows in sidebar (if using API key)
-- [ ] Sample data loads successfully
-- [ ] Comparison returns results
-- [ ] Match score displays correctly
-- [ ] Field comparison shows color-coded results
-- [ ] Debug details are accessible (if enabled)
-
----
-
-**Need more help?** Check the [README.md](README.md) for comprehensive documentation or create an issue in the repository.
-
-**Ready to share?** See [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md) for demo preparation tips.

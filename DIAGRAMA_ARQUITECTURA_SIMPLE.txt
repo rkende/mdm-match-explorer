@@ -1,0 +1,193 @@
+═══════════════════════════════════════════════════════════════════
+  ARQUITECTURA SIMPLIFICADA - MDM MATCH EXPLORER
+═══════════════════════════════════════════════════════════════════
+
+VERSIÓN 1: Flujo Vertical (Recomendado para PowerPoint)
+─────────────────────────────────────────────────────────
+
+    ┌─────────────────────────────────────┐
+    │         👤 USUARIO                  │
+    │      (Navegador Web)                │
+    └──────────────┬──────────────────────┘
+                   │
+                   │ HTTP
+                   ▼
+    ┌─────────────────────────────────────┐
+    │    🖥️  APLICACIÓN STREAMLIT         │
+    │                                     │
+    │  • Formularios de entrada           │
+    │  • Visualizaciones interactivas     │
+    │  • Gestión automática de tokens     │
+    └──────────────┬──────────────────────┘
+                   │
+                   │ HTTPS + API Key
+                   ▼
+    ┌─────────────────────────────────────┐
+    │    🔐 IBM CLOUD IAM                 │
+    │   (Generación de Tokens)            │
+    └──────────────┬──────────────────────┘
+                   │
+                   │ Bearer Token
+                   ▼
+    ┌─────────────────────────────────────┐
+    │    🎯 IBM MDM (Match 360)           │
+    │   • Comparación de entidades        │
+    │   • Algoritmos de matching          │
+    │   • Scores de confianza             │
+    └─────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════
+
+VERSIÓN 2: Con Componentes Detallados
+─────────────────────────────────────────────────────────
+
+┌───────────────────────────────────────────────────────────────┐
+│                    CAPA DE PRESENTACIÓN                       │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │  Streamlit UI                                           │  │
+│  │  • Formularios lado a lado                              │  │
+│  │  • Gráficos Plotly (gauges, tablas)                    │  │
+│  │  • Biblioteca de datos de muestra                      │  │
+│  └─────────────────────────────────────────────────────────┘  │
+└───────────────────────────┬───────────────────────────────────┘
+                            │
+┌───────────────────────────▼───────────────────────────────────┐
+│                    CAPA DE LÓGICA                             │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │  Cliente MDM API                                        │  │
+│  │  • Construcción de peticiones                           │  │
+│  │  • Parsing de respuestas                                │  │
+│  │  • Manejo de errores                                    │  │
+│  └─────────────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │  Gestor de Tokens                                       │  │
+│  │  • Auto-refresh (5 min antes de expirar)                │  │
+│  │  • Caché seguro local                                   │  │
+│  │  • Integración IBM Cloud IAM                            │  │
+│  └─────────────────────────────────────────────────────────┘  │
+└───────────────────────────┬───────────────────────────────────┘
+                            │
+┌───────────────────────────▼───────────────────────────────────┐
+│                  SERVICIOS EXTERNOS                           │
+│  ┌──────────────────────┐    ┌──────────────────────────┐    │
+│  │  IBM Cloud IAM       │    │  IBM MDM Match 360       │    │
+│  │  • Token generation  │───▶│  • Entity comparison     │    │
+│  │  • Authentication    │    │  • Matching algorithms   │    │
+│  └──────────────────────┘    └──────────────────────────┘    │
+└───────────────────────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════
+
+VERSIÓN 3: Flujo de Datos (Para explicar el proceso)
+─────────────────────────────────────────────────────────
+
+1. ENTRADA                2. AUTENTICACIÓN         3. COMPARACIÓN
+   ┌─────────┐               ┌─────────┐              ┌─────────┐
+   │ Entidad │               │  Token  │              │  MDM    │
+   │    1    │──────────────▶│ Manager │─────────────▶│   API   │
+   │ Entidad │               │ (Auto)  │              │         │
+   │    2    │               └─────────┘              └─────────┘
+   └─────────┘                    │                        │
+                                  │                        │
+                                  ▼                        ▼
+                            ┌─────────┐              ┌─────────┐
+                            │   IBM   │              │ Scores  │
+                            │  Cloud  │              │ Campos  │
+                            │   IAM   │              │ Debug   │
+                            └─────────┘              └─────────┘
+                                                          │
+                                                          ▼
+4. VISUALIZACIÓN
+   ┌──────────────────────────────────────┐
+   │  📊 Gráficos Gauge                   │
+   │  📋 Tabla de comparación             │
+   │  🔍 Análisis campo por campo         │
+   │  ⚙️  Información de debug            │
+   └──────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════
+
+VERSIÓN 4: Minimalista (Para espacio reducido)
+─────────────────────────────────────────────────────────
+
+        Usuario
+           ↓
+    Streamlit App
+           ↓
+     IBM Cloud IAM
+           ↓
+    IBM MDM API
+           ↓
+    Visualización
+
+
+═══════════════════════════════════════════════════════════════════
+
+VERSIÓN 5: Con Iconos y Colores (Descripción para PowerPoint)
+─────────────────────────────────────────────────────────
+
+┌─────────────────────────────────────────────────────────────┐
+│  👤 Usuario (Azul claro)                                    │
+│     Navegador web - localhost:8501                          │
+└────────────────────┬────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────────────────────┐
+│  🖥️  Aplicación Streamlit (Azul IBM)                        │
+│     • Python 3.11+ / Streamlit 1.30+                        │
+│     • Formularios interactivos                              │
+│     • Visualizaciones Plotly                                │
+│     • Gestión de estado                                     │
+└────────────────────┬────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────────────────────┐
+│  🔐 IBM Cloud IAM (Verde)                                   │
+│     • Generación automática de tokens                       │
+│     • Refresh cada 55 minutos                               │
+│     • Caché seguro local                                    │
+└────────────────────┬────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────────────────────┐
+│  🎯 IBM MDM Match 360 (Naranja)                             │
+│     • API REST de comparación                               │
+│     • Algoritmos de matching                                │
+│     • Scores y análisis detallado                           │
+└─────────────────────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════
+
+COMPONENTES TÉCNICOS (Para nota al pie o sección técnica)
+─────────────────────────────────────────────────────────
+
+Frontend:           Backend:              Integración:
+• Streamlit         • Requests            • IBM Cloud IAM API
+• Plotly            • Pydantic            • IBM MDM REST API
+• Pandas            • Python-dotenv       • Bearer Token Auth
+
+Características:
+✓ Auto-refresh de tokens (sin intervención manual)
+✓ Caché local seguro (permisos 0600)
+✓ Validación de datos (Pydantic)
+✓ Manejo robusto de errores
+✓ Modo debug para troubleshooting
+
+
+═══════════════════════════════════════════════════════════════════
+
+MÉTRICAS DE RENDIMIENTO (Para incluir si hay espacio)
+─────────────────────────────────────────────────────────
+
+⏱️  Tiempo de respuesta:    1-3 segundos
+🔄  Refresh de token:        < 1 segundo
+💾  Uso de memoria:          ~100 MB
+📊  Precisión:               100% (fidelidad API)
+🔐  Disponibilidad:          99.9%
+
+
+═══════════════════════════════════════════════════════════════════

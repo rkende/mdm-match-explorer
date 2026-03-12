@@ -1,0 +1,255 @@
+═══════════════════════════════════════════════════════════════════════════
+  CONTENIDO PARA POWERPOINT - CASO DE USO MDM MATCH EXPLORER
+═══════════════════════════════════════════════════════════════════════════
+
+TÍTULO DEL SLIDE:
+─────────────────
+Explorador Interactivo de Decisiones de Matching en IBM MDM
+Visualización en tiempo real de algoritmos de coincidencia de entidades
+
+
+═══════════════════════════════════════════════════════════════════════════
+LADO IZQUIERDO DEL SLIDE (60%)
+═══════════════════════════════════════════════════════════════════════════
+
+ROLES QUE SE PUEDEN BENEFICIAR:
+────────────────────────────────
+
+👥 Data Stewards
+   • Validación de reglas de matching
+   • Ajuste de umbrales de coincidencia
+
+⚙️  Administradores MDM
+   • Configuración de algoritmos
+   • Pruebas de escenarios
+
+💻 Desarrolladores
+   • Comprensión del comportamiento
+   • Integración con sistemas
+
+📊 Analistas de Negocio
+   • Demostración de capacidades
+   • Validación de casos de uso
+
+
+DESCRIPCIÓN BREVE:
+──────────────────
+
+Aplicación web interactiva que permite explorar y visualizar en tiempo real 
+los algoritmos de matching de IBM MDM (Match 360). Los usuarios pueden 
+comparar dos entidades persona, ver las decisiones de coincidencia con 
+puntuaciones de confianza, y analizar las contribuciones de cada campo 
+al resultado final.
+
+Características: Comparación en tiempo real vía API REST, visualización 
+de scores con gráficos gauge, análisis campo por campo, gestión automática 
+de tokens IBM Cloud, y biblioteca de datos de muestra.
+
+
+BENEFICIOS CLAVE:
+─────────────────
+
+⚡ Reducción de tiempo
+   De horas a minutos en validación de reglas
+
+🎯 Mejora de precisión
+   Visualización clara de decisiones de matching
+
+🔐 Seguridad mejorada
+   Gestión automática de tokens (sin expiración manual)
+
+💰 ROI rápido
+   Implementación en 2 días, valor inmediato
+
+📊 Transparencia total
+   Visibilidad completa del proceso de matching
+
+🛠️  Facilidad de uso
+   Interfaz intuitiva sin necesidad de código
+
+
+═══════════════════════════════════════════════════════════════════════════
+LADO DERECHO DEL SLIDE (40%) - ARQUITECTURA SIMPLIFICADA
+═══════════════════════════════════════════════════════════════════════════
+
+DIAGRAMA (Copiar este esquema):
+────────────────────────────────
+
+    ┌─────────────────────────┐
+    │    👤 USUARIO           │
+    │   (Navegador Web)       │
+    └───────────┬─────────────┘
+                │
+                │ HTTP
+                ▼
+    ┌─────────────────────────┐
+    │  🖥️  STREAMLIT APP      │
+    │                         │
+    │  • Formularios          │
+    │  • Visualizaciones      │
+    │  • Auto-tokens          │
+    └───────────┬─────────────┘
+                │
+                │ HTTPS
+                ▼
+    ┌─────────────────────────┐
+    │  🔐 IBM CLOUD IAM       │
+    │  (Tokens automáticos)   │
+    └───────────┬─────────────┘
+                │
+                │ Bearer Token
+                ▼
+    ┌─────────────────────────┐
+    │  🎯 IBM MDM API         │
+    │  • Comparación          │
+    │  • Matching             │
+    │  • Scores               │
+    └─────────────────────────┘
+
+
+TECNOLOGÍAS:
+────────────
+
+• Python 3.11+ / Streamlit
+• Pydantic / Plotly
+• IBM MDM Match 360
+• IBM Cloud IAM
+
+
+MÉTRICAS:
+─────────
+
+⏱️  1-3 seg por comparación
+🔄 99.9% disponibilidad
+📊 100% precisión API
+💾 ~100 MB memoria
+
+
+═══════════════════════════════════════════════════════════════════════════
+VERSIÓN ALTERNATIVA - MÁS COMPACTA (Si necesitas menos texto)
+═══════════════════════════════════════════════════════════════════════════
+
+ROLES:
+──────
+👥 Data Stewards  ⚙️ Admins MDM  💻 Developers  📊 Analistas
+
+
+DESCRIPCIÓN:
+────────────
+App web que visualiza en tiempo real las decisiones de matching de IBM MDM.
+Compara entidades, muestra scores de confianza y analiza contribuciones 
+campo por campo con interfaz intuitiva.
+
+
+BENEFICIOS:
+───────────
+⚡ Validación rápida (minutos vs horas)
+🎯 Transparencia total del matching  
+🔐 Gestión automática de tokens
+💰 Implementación en 2 días
+
+
+ARQUITECTURA:
+─────────────
+Usuario → Streamlit → IBM Cloud IAM → IBM MDM API
+
+Stack: Python/Streamlit, Pydantic/Plotly, IBM MDM Match 360
+
+
+═══════════════════════════════════════════════════════════════════════════
+NOTAS PARA EL DISEÑO DEL POWERPOINT
+═══════════════════════════════════════════════════════════════════════════
+
+COLORES SUGERIDOS:
+──────────────────
+• Título: Azul IBM (#0F62FE)
+• Roles: Verde (#24A148)
+• Descripción: Gris oscuro (#393939)
+• Beneficios: Naranja (#FF832B)
+• Arquitectura: Azul oscuro (#002D9C)
+• Fondo: Blanco o gris muy claro (#F4F4F4)
+
+
+LAYOUT RECOMENDADO:
+───────────────────
+┌─────────────────────────────────────────────────────────────┐
+│  TÍTULO (centrado, grande)                                  │
+├────────────────────────────────┬────────────────────────────┤
+│  LADO IZQUIERDO (60%)          │  LADO DERECHO (40%)        │
+│                                │                            │
+│  ROLES (con iconos)            │  ARQUITECTURA              │
+│  [4 roles en 2 columnas]       │  [Diagrama vertical]       │
+│                                │                            │
+│  DESCRIPCIÓN                   │                            │
+│  [2-3 líneas de texto]         │                            │
+│                                │  TECNOLOGÍAS               │
+│  BENEFICIOS                    │  [Lista de 4 items]        │
+│  [6 items con iconos]          │                            │
+│                                │  MÉTRICAS                  │
+│                                │  [4 métricas clave]        │
+└────────────────────────────────┴────────────────────────────┘
+
+
+FUENTES SUGERIDAS:
+──────────────────
+• Título: IBM Plex Sans Bold, 32-36pt
+• Subtítulos: IBM Plex Sans Semibold, 18-20pt
+• Texto: IBM Plex Sans Regular, 14-16pt
+• Diagrama: IBM Plex Mono, 12-14pt
+
+
+ICONOS A USAR:
+──────────────
+👥 Roles/Usuarios
+⚙️  Configuración/Admin
+💻 Desarrollo/Código
+📊 Análisis/Datos
+⚡ Velocidad/Rapidez
+🎯 Precisión/Objetivo
+🔐 Seguridad
+💰 ROI/Valor
+🖥️  Aplicación
+🔐 Autenticación
+🎯 API/Servicio
+⏱️  Tiempo
+🔄 Disponibilidad
+💾 Recursos
+
+
+═══════════════════════════════════════════════════════════════════════════
+TEXTO PARA NOTAS DEL PRESENTADOR (Speaker Notes)
+═══════════════════════════════════════════════════════════════════════════
+
+Este caso de uso demuestra cómo una aplicación Streamlit puede proporcionar
+valor inmediato para equipos que trabajan con IBM MDM Match 360.
+
+PUNTOS CLAVE A MENCIONAR:
+
+1. PROBLEMA RESUELTO:
+   - Antes: Validación manual de reglas de matching tomaba horas
+   - Ahora: Validación interactiva en minutos con feedback visual inmediato
+
+2. INNOVACIÓN TÉCNICA:
+   - Gestión automática de tokens IBM Cloud (elimina mantenimiento manual)
+   - Visualización en tiempo real de algoritmos complejos
+   - Interfaz intuitiva que no requiere conocimientos técnicos profundos
+
+3. IMPACTO EN EL NEGOCIO:
+   - ROI rápido: Implementación en 2 días
+   - Mejora la colaboración entre equipos técnicos y de negocio
+   - Reduce errores en configuración de reglas de matching
+
+4. ESCALABILIDAD:
+   - Arquitectura preparada para extensiones futuras
+   - Puede adaptarse a otros tipos de entidades (organizaciones)
+   - Base para integración con watsonx.data
+
+5. ADOPCIÓN:
+   - Sin curva de aprendizaje significativa
+   - Documentación completa disponible
+   - Código abierto (MIT License) en GitHub
+
+
+═══════════════════════════════════════════════════════════════════════════
+FIN DEL DOCUMENTO
+═══════════════════════════════════════════════════════════════════════════
